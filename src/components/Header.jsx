@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Search, Bell, ShoppingBag, Sparkles, Settings2 } from "lucide-react";
+import { ShoppingCart} from "lucide-react";
 import { Link } from "react-router-dom";
 import SearchInput from "./ui/SearchInput";
 import FilterCategory from "./ui/FilterCategory";
@@ -35,26 +35,18 @@ const [selectedFilters, setSelectedFilters] = useState([]);
             </div>
           </div>
 
-          <div className="flex items-center gap-3">
+          <Link to={'/cart'} toclassName="flex items-center gap-3 cursor-pointer">
             <button
               variant="ghost"
               size="icon"
-              className="relative rounded-2xl bg-gray-100 hover:bg-gray-200 transition-all duration-300"
-            >
-              <Bell className="h-5 w-5 text-gray-600" />
+              className="relative rounded-2xl bg-gray-100 hover:bg-gray-200 transition-all duration-300 cursor-pointer"
+              >
+              <ShoppingCart className="h-6 w-6 text-gray-900" />
               <div className="absolute -top-0.5 -right-0.5 rounded-full h-3 w-3 p-0 bg-gradient-to-r from-red-500 to-pink-500 text-white text-[6px] flex items-center justify-center animate-pulse">
                 3
               </div>
             </button>
-            <Link to="/cart">
-              <button
-                variant="ghost"
-                size="icon"
-                className="relative rounded-2xl bg-gray-100 hover:bg-gray-200 transition-all duration-300"
-              >
-              </button>
-            </Link>
-          </div>
+          </Link>
         </div>
 
         {/* Search Bar */}

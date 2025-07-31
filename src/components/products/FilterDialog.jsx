@@ -2,7 +2,6 @@ import { useState, useEffect } from "react"
 import { X } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion";
 
-
 const filterOptions = [
   { id: "agbada", label: "Agbada", count: 50 },
   { id: "suits", label: "Suits", count: 25 },

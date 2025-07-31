@@ -6,7 +6,7 @@ export default function ProductCard({product}) {
 
     return (
         <div>
-            <Link>
+            <Link to={`/product/${product.id}`}>
                 <div className="group relative bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-all duration-500 hover:-translate-y-1 border border-gray-50">
                     <div>
                         {/* Image Container */}
