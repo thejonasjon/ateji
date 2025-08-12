@@ -1,11 +1,15 @@
+import { useEffect, useState } from "react"
 import { Header } from "../components/Header"
 import Navbar from "../components/navigations/Navbar"
 import CategoryCard from "../components/products/CategoryCard"
 import FilterDialog from "../components/products/FilterDialog"
 import ProductCard from "../components/products/ProductCard"
+import { FetchProducts } from "../services/api"
 
 
 export default function Home() {
+    const [productss, setProductss] = useState([])
+
     const products = [
         {
             id: 1,
@@ -48,6 +52,21 @@ export default function Home() {
             image: "https://shoposaze.com/wp-content/uploads/2023/03/deji-eniola.jpg",
           }
     ]
+
+    useEffect(() => {
+        async function loadProducts() {
+            try {
+                const data = await FetchProducts()
+                setProductss(data)
+                console.log(data)
+            } catch (error) {
+                console.error(err)
+            }
+        }
+
+        loadProducts()
+    }, [])
+
 
     return (
         <>

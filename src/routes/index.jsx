@@ -6,6 +6,7 @@ import ProductDetailsPage from '../pages/productDetailsPage'
 import Cart from '../pages/cart'
 import NotFound from '../pages/notFound'
 import Checkout from '../pages/checkout'
+import AddressFormPage from '../pages/AddUpdateAddress'
 
 
 export default function AppRoutes(){
@@ -14,6 +15,7 @@ export default function AppRoutes(){
             <Suspense fallback={<div>Loading....</div>}>
                 <Routes>
                     <Route path='' element={''} />
+                    <Route path='/address' element={<AddressFormPage/>} />
                     <Route index element={<Home />} /> // Index page
                     <Route path='/categories' element={<Category />} />
                     <Route path='/product/:id' element={<ProductDetailsPage />} />

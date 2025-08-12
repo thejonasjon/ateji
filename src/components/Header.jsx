@@ -4,6 +4,8 @@ import { Link } from "react-router-dom";
 import SearchInput from "./ui/SearchInput";
 import FilterCategory from "./ui/FilterCategory";
 import FilterDialog from "./products/FilterDialog";
+import {getCartCount} from '../services/localStorage'
+
 // import { Input } from "@/components/ui/input";
 // import { Button } from "@/components/ui/button";
 // import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -42,8 +44,8 @@ const [selectedFilters, setSelectedFilters] = useState([]);
               className="relative rounded-2xl bg-gray-100 hover:bg-gray-200 transition-all duration-300 cursor-pointer"
               >
               <ShoppingCart className="h-6 w-6 text-gray-900" />
-              <div className="absolute -top-0.5 -right-0.5 rounded-full h-3 w-3 p-0 bg-gradient-to-r from-red-500 to-pink-500 text-white text-[6px] flex items-center justify-center animate-pulse">
-                3
+              <div className="absolute -top-0.5 -right-0.5 rounded-full h-3 w-3 p-0 bg-gradient-to-r from-red-500 to-pink-500 text-white text-[6px] flex items-center justify-center">
+                {getCartCount()}
               </div>
             </button>
           </Link>

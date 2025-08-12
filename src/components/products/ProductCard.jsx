@@ -1,6 +1,8 @@
-import { Clock } from "lucide-react";
+import { Clock, ShoppingCart } from "lucide-react";
 import { Link } from "react-router-dom";
+import {AddToCart} from '../../services/localStorage'
 import DefaultProductImage from '../../assets/images/defaultImage.jpg'
+
 
 export default function ProductCard({product}) {
 
@@ -37,9 +39,19 @@ export default function ProductCard({product}) {
 
                         {/* Delivery Time */}
                         {/* bg-blue-50 rounded-full border border-blue-100 */}
-                        <div className="flex items-center gap-1 py-1">
-                            <Clock className="h-3 w-3 text-gray-700" />
-                            <span className="text-xs font-medium text-gray-700">{product.deliveryTime}</span>
+                        <div className="">
+                            <div className="flex items-center gap-1 py-1">
+                                <Clock className="h-3 w-3 text-gray-700" />
+                                <span className="text-xs font-medium text-gray-700">{product.deliveryTime}</span>
+                            </div>
+
+                            <div className="mx-auto w-10/12 mt-4">
+                                <button className="w-full flex gap-2 items-center justify-center text-white text-xs bg-[#3f8b72] rounded-tl-xl rounded-tr-sm rounded-bl-sm rounded-br-xl  px-4 py-2"
+                                    onClick={() => AddToCart(product)}
+                                >
+                                <ShoppingCart className="h-4 w-4 text-gray-50" /> Add to cart
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
