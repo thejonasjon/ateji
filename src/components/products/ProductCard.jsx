@@ -6,6 +6,14 @@ import DefaultProductImage from '../../assets/images/defaultImage.jpg'
 
 export default function ProductCard({product}) {
 
+    const dayWeek = (time) => {
+        return time
+        ? (time % 7 === 0)
+            ? `${time / 7} Week${time / 7 > 1 ? 's' : ''}`
+            : `${time} Day${time > 1 ? 's' : ''}`
+        : ''
+    }
+
     return (
         <div>
             <Link to={`/product/${product.id}`}>
@@ -42,7 +50,7 @@ export default function ProductCard({product}) {
                         <div className="">
                             <div className="flex items-center gap-1 py-1">
                                 <Clock className="h-3 w-3 text-gray-700" />
-                                <span className="text-xs font-medium text-gray-700">{product.deliveryTime}</span>
+                                <span className="text-xs font-medium text-gray-700">{dayWeek(product.delivery_time)}</span>
                             </div>
 
                             <div className="mx-auto w-10/12 mt-4">

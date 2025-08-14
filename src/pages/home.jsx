@@ -8,9 +8,9 @@ import { FetchProducts } from "../services/api"
 
 
 export default function Home() {
-    const [productss, setProductss] = useState([])
+    const [products, setProducts] = useState([])
 
-    const products = [
+    const productss = [
         {
             id: 1,
             name: "Royal Agbada Premium",
@@ -57,10 +57,10 @@ export default function Home() {
         async function loadProducts() {
             try {
                 const data = await FetchProducts()
-                setProductss(data)
+                setProducts(data)
                 console.log(data)
             } catch (error) {
-                console.error(err)
+                console.error(error)
             }
         }
 

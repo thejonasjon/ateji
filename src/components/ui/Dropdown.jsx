@@ -37,9 +37,10 @@ export default function Dropdown({dropdown}){
                         {dropdown && dropdown[0].items.map((item, index) => (
                             <button key={index} className="text-xs font-medium flex justify-start items-center gap-2 w-full hover:bg-gray-100 p-1 cursor-pointer"
                             onClick={() => {
-                                setSelectItem(item)
-                                setIsOpen(false)
+                                setSelectItem(item);
+                                setIsOpen(false);
                             }}
+                            value={selectItem}
                             >
                                 {selectItem == item ? <Check className="w-3 h-3" /> : <div className="w-3 h-3"></div>}
                                 <span>

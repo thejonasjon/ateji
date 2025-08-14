@@ -1,15 +1,29 @@
 
-import { ArrowLeft, Check, ChevronDown, Heart, Minus, Plus, PlusCircle, Share2 } from "lucide-react";
+import { ArrowLeft, ArrowRight, Check, ChevronDown, Heart, Minus, Plus, PlusCircle, Share2 } from "lucide-react";
 import Dropdown from "../../components/ui/Dropdown";
 import { useState } from "react";
 
 import { Link } from "react-router-dom";
 
 export default function ProductDetails({ product }) {
-    const [isActive, setIsActive] = useState(product.deliveryTypes[0].type);
+    const [isActive, setIsActive] = useState('Normal');
     const [quantity, setQuantity] = useState(1);
+    const [normalP, setNormalP] = useState(product.price);
+    const [expressP, setExpressP] = useState();
 
-    console.log(product.sizes[0].title)
+    // console.log(product.sizes[0].title)
+
+    const dayWeek = (time, express) => {
+        express ? time = 7 : time;
+
+        return time % 7 === 0
+            ?  `${time / 7} Week${time / 7 > 1 ? 's': ''}`
+            : `${time} Day${time > 1 ? 's': ''}`;
+    }
+
+    const expressPrice = price => {
+        return price ? (price * 25 / 100) + price : 0;
+    }
 
     return (
         <>
@@ -23,10 +37,19 @@ export default function ProductDetails({ product }) {
                         {product.images.map((img, index) => (
                             <img key={index}
                                 src={img}
-                                alt={product.name}
+                                alt={product.name + index}
                                 className="w-full h-full object-cover"
                             />
                         ))}
+
+                        <div className="flex justify-between absolute w-full h-fit top-1/2 text-white px-6">
+                            <button className="bg-black/50 rounded-full p-3 shadow-md">
+                                <ArrowLeft className="w-4 h-4" />
+                            </button>
+                            <button className="bg-black/50 rounded-full p-3 shadow-md">
+                                <ArrowRight className="w-4 h-4" />
+                            </button>
+                        </div>
 
                         <div className="absolute bottom-3 right-5 rounded-md bg-black/50 text-white text-xs px-4 py-1">
                             <span>1/{product.images.length}</span>
@@ -50,7 +73,7 @@ export default function ProductDetails({ product }) {
                     <div className="space-y-2">
                         <h5 className="text-sm font-bold">Delivery Type</h5>
                         <div className="flex gap-2">
-                            {product.deliveryTypes.map((delivery, index) => (
+                            {/* {product.deliveryTypes.map((delivery, index) => (
                                 <button key={index}
                                     className={`space-y-1 w-full border-1 border-gray-100 rounded-xl p-2 cursor-pointer ${isActive === delivery.type ? 'bg-black text-white' : ''}`}
                                     onClick={() => setIsActive(delivery.type)}
@@ -59,12 +82,44 @@ export default function ProductDetails({ product }) {
                                     <p className="text-xs my-1">N{delivery.price.toLocaleString()}</p>
                                     <p className="text-xs font-extralight">{delivery.duration}</p>
                                 </button>
-                            ))}
+                            ))} */}
+
+                            <button
+                                className={`space-y-1 w-full border-1 border-gray-100 rounded-xl p-2 cursor-pointer ${isActive === 'Normal' ? 'bg-black text-white' : ''}`}
+                                onClick={() => {
+                                    setIsActive('Normal');
+                                    setNormalP(product.price);
+                                }}
+                                value={normalP}
+                            >
+                                <p className="text-xs font-extralight">Normal</p>
+                                <p className="text-xs my-1">N{product.price.toLocaleString()}</p>
+                                <p className="text-xs font-extralight">{dayWeek(product.delivery_time)}</p>
+                            </button>
+                            <button
+                                className={`space-y-1 w-full border-1 border-gray-100 rounded-xl p-2 cursor-pointer ${isActive === 'Express' ? 'bg-black text-white' : ''}`}
+                                onClick={() => {
+                                    setIsActive('Express');
+                                    setExpressP(expressPrice(product.price));
+                                }}
+                                value={expressP}
+                            >
+                                <p className="text-xs font-extralight">Express</p>
+                                <p className="text-xs my-1">N{expressPrice(product.price).toLocaleString()}</p>
+                                <p className="text-xs font-extralight">{dayWeek(product.delivery_time, 'Express')}</p>
+                            </button>
                         </div>
                     </div>
 
-                    <Dropdown dropdown={product.sizes} />
-                    <Dropdown dropdown={product.colors} />
+                    <Dropdown dropdown={[{
+                        "title": "Sizes",
+                        "items": product.product_sizes.map(size => size.sizes.abs)
+                    }]} />
+
+<                   Dropdown dropdown={[{
+                        "title": "Colors",
+                        "items": product.product_colors.map(color => color.colors.name)
+                    }]} />
 
                     <div className="space-y-2">
                         <h5 className="text-sm font-bold">Quantity</h5>
@@ -92,7 +147,7 @@ export default function ProductDetails({ product }) {
                             Proceed to checkout
                         </button>
                         <button className="w-full bg-black hover:bg-black/90 text-white text-lg rounded-xl p-4 transition-all ease-in-out duration-300">
-                            Add to Cart - N{product.price.toLocaleString()}
+                            Add to Cart - N{isActive === 'Normal' ? (product.price * quantity).toLocaleString() : (expressPrice(product.price) * quantity).toLocaleString()}
                         </button>
                     </div>
                 </div>

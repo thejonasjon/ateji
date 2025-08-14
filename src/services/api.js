@@ -34,11 +34,38 @@ export async function FetchProducts(){
         name: product.name,
         description: product.description,
         price: product.price,
-        deliveryTime: product.delivery_time,
+        delivery_time: product.delivery_time,
         image: product.image,
         sizes: product.product_sizes.map(ps => ps.sizes),
         colors: product.product_colors.map(pc => pc.colors)
     }))
 
     // return data
+}
+
+export async function FetchProduct(id) {
+    const {data, error} = await supabase
+    .from('products')
+    .select(`*,
+        product_sizes (
+          sizes (
+            name,
+            abs
+          )
+        ),
+        product_colors (
+          colors (
+            name
+          )
+        )
+    `)
+    .eq('id', id)
+    .single();
+
+    if (error){
+        console.log('Error fetching product:', error.message);
+        return null
+    }
+
+    return data;
 }
