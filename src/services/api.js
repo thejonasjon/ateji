@@ -69,3 +69,59 @@ export async function FetchProduct(id) {
 
     return data;
 }
+
+export async function getOrCreateCustomer({ first_name, last_name, address_line_1, zip_code, phone, city, state, building_no }) {
+
+    // Check if customer exists
+    const { data: existingCustomer, error: selectError } = await supabase
+      .from("customer")
+      .select("*")
+      .eq("phone", phone)
+      .maybeSingle();
+
+    if (selectError) {
+      throw new Error(`Error checking customer: ${selectError.message}`);
+    }
+
+    if (existingCustomer) {
+      return existingCustomer;
+    }
+
+    // Create new customer
+    const { data: newCustomer, error: insertError } = await supabase
+      .from("customer")
+      .insert([
+        {
+            first_name,
+            last_name,
+            state,
+            city,
+            zip_code,
+            phone,
+            address_line_1,
+            building_no
+        },
+      ])
+      .select()
+      .single();
+
+    if (insertError) {
+      throw new Error(`Error creating customer: ${insertError.message}`);
+    }
+
+    return newCustomer;
+}
+
+export async function searchProducts(query) {
+    const { data, error } = await supabase
+    .from('products')
+    .select('*')
+    .ilike('name', `%${query}%`);
+
+    if (error) {
+        console.error(error);
+        return [];
+    }
+
+    return data;
+}

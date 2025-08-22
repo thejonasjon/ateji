@@ -1,6 +1,7 @@
 import { ChevronLeft } from "lucide-react";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { getOrCreateCustomer } from "../../services/api";
 
 export default function AddressForm({addressForm}){
 
@@ -14,8 +15,9 @@ export default function AddressForm({addressForm}){
 
     const [errors, setErrors] = useState({});
 
+    const navigate = useNavigate();
 
-    const submitForm = (e) => {
+    const handleSubmitForm = async (e) => {
         e.preventDefault();
 
         let newErrors = {};
@@ -31,7 +33,21 @@ export default function AddressForm({addressForm}){
         setErrors(newErrors);
 
         if (Object.keys(newErrors).length === 0) {
-            console.log("Form submitted!");
+            try {
+               const customer = await getOrCreateCustomer({
+                    first_name: firstName,
+                    last_name: lastName,
+                    address_line_1: address,
+                    zip_code: ZIP,
+                    phone,
+                    city,
+                    state,
+                });
+                navigate('/cart')
+                return customer
+            } catch (error) {
+                console.error("Error submitting form:", error.message);
+            }
         }
     }
 
@@ -39,7 +55,7 @@ export default function AddressForm({addressForm}){
         <>
             <div className="space-y-8">
                 <div className="flex justify-between items-center">
-                    <Link to='/'>
+                    <Link to='/cart'>
                         <ChevronLeft />
                     </Link>
 
@@ -49,7 +65,7 @@ export default function AddressForm({addressForm}){
 
                     </div>
                 </div>
-                <form className="space-y-6" onSubmit={submitForm}>
+                <form className="space-y-6" onSubmit={handleSubmitForm}>
                     <div className="relative">
                         <label htmlFor="firstName" className="absolute -top-2 left-4 bg-white text-xs text-gray-500 px-2">First Name <span className="text-red-400">*</span></label>
                         <input type="text" id="firstName" placeholder="Enter your first name" className={`w-full text-sm text-gray-700 border focus:outline-1 focus:border-0 border-gray-400 ${errors.firstName ? 'focus:outline-red-400 border-red-400' : 'focus:outline-[#3f8b72]'} rounded-md transition-all ease-in-out duration-100 px-6 py-2.5`}

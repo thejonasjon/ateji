@@ -5,6 +5,7 @@ import SearchInput from "./ui/SearchInput";
 import FilterCategory from "./ui/FilterCategory";
 import FilterDialog from "./products/FilterDialog";
 import {getCartCount} from '../services/localStorage'
+import { motion } from "framer-motion";
 
 // import { Input } from "@/components/ui/input";
 // import { Button } from "@/components/ui/button";
@@ -12,16 +13,10 @@ import {getCartCount} from '../services/localStorage'
 // import { Badge } from "@/components/ui/badge";
 // import { useCart } from "@/hooks/use-cart";
 
-export function Header() {
-//   const { getTotalItems } = useCart();
-const [isOpen, setIsOpen] = useState(false);
-const [selectedFilters, setSelectedFilters] = useState([]);
+export function Header({ onSearchResults }) {
 
-
-
-// useEffect(() => {
-//   setTempFilters(selectedFilters);
-// }, [selectedFilters]);
+  const [isOpen, setIsOpen] = useState(false);
+  const [selectedFilters, setSelectedFilters] = useState([]);
 
   return (
     <div className="bg-gradient-to-br from-white via-gray-50 to-white border-b border-gray-100">
@@ -37,7 +32,7 @@ const [selectedFilters, setSelectedFilters] = useState([]);
             </div>
           </div>
 
-          <Link to={'/cart'} toclassName="flex items-center gap-3 cursor-pointer">
+          <Link to={'/cart'} className="flex items-center gap-3 cursor-pointer">
             <button
               variant="ghost"
               size="icon"
@@ -54,8 +49,9 @@ const [selectedFilters, setSelectedFilters] = useState([]);
         {/* Search Bar */}
         <div className="flex gap-3">
           <div className="flex-1">
-            <SearchInput />
+            <SearchInput onResults={onSearchResults} />
           </div>
+
          <div>
           <button
             onClick={() => setIsOpen((prev) => !prev)}

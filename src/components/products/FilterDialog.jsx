@@ -10,7 +10,7 @@ const filterOptions = [
 ]
 
 export default function FilterDialog({ isOpen, setIsOpen, selectedFilters, onFiltersChange } ) {
-  const [tempFilters, setTempFilters] = useState(selectedFilters)
+  const [tempFilters, setTempFilters] = useState([]);
 
   useEffect(() => {
     setTempFilters(selectedFilters)
@@ -19,7 +19,7 @@ export default function FilterDialog({ isOpen, setIsOpen, selectedFilters, onFil
   const handleFilterToggle = (filterId) => {
     setTempFilters((prev) =>
       prev.includes(filterId)
-        ? prev.filter((id) => id !== filterId)
+        ? prev.filter(id => id !== filterId)
         : [...prev, filterId]
     )
   }

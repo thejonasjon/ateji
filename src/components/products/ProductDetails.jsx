@@ -4,14 +4,16 @@ import Dropdown from "../../components/ui/Dropdown";
 import { useState } from "react";
 
 import { Link } from "react-router-dom";
+import { AddToCart } from "../../services/localStorage";
 
 export default function ProductDetails({ product }) {
     const [isActive, setIsActive] = useState('Normal');
     const [quantity, setQuantity] = useState(1);
     const [normalP, setNormalP] = useState(product.price);
     const [expressP, setExpressP] = useState();
-
-    // console.log(product.sizes[0].title)
+    const [selectedSize, setSelectedSize] = useState(null);
+    const [selectedColor, setSelectedColor] = useState(null);
+    const [error, setError] = useState(false)
 
     const dayWeek = (time, express) => {
         express ? time = 7 : time;
@@ -23,6 +25,23 @@ export default function ProductDetails({ product }) {
 
     const expressPrice = price => {
         return price ? (price * 25 / 100) + price : 0;
+    }
+
+    const handleCheckOut = () => {
+        if(selectedSize && selectedColor){
+            const selectedProduct = {
+                ...product,
+                price: isActive === 'Normal' ? normalP : expressP,
+                delivery_time: isActive === 'Normal' ? dayWeek(product.delivery_time) : dayWeek(product.delivery_time, 'Express'),
+                quantity: quantity,
+                product_color: selectedColor,
+                product_size: selectedSize
+            }
+            AddToCart(selectedProduct);
+            setError(false)
+        } else {
+            setError(true)
+        }
     }
 
     return (
@@ -111,15 +130,31 @@ export default function ProductDetails({ product }) {
                         </div>
                     </div>
 
-                    <Dropdown dropdown={[{
-                        "title": "Sizes",
-                        "items": product.product_sizes.map(size => size.sizes.abs)
-                    }]} />
+                    <div>
+                        <Dropdown dropdown={[{
+                            "title": "Sizes",
+                            "items": product.product_sizes.map(size => size.sizes.abs)
+                        }]}
+                        onSelect={(size) => setSelectedSize(size)}
+                        />
+                        { !selectedSize && error &&
+                            <p className="text-xs text-red-400">Select cloth size</p>
+                        }
+                    </div>
 
-<                   Dropdown dropdown={[{
-                        "title": "Colors",
-                        "items": product.product_colors.map(color => color.colors.name)
-                    }]} />
+
+                    <div>
+                        <Dropdown dropdown={[{
+                            "title": "Colors",
+                            "items": product.product_colors.map(color => color.colors.name)
+                        }]}
+                        onSelect={(color) => setSelectedColor(color)}
+                        />
+
+                        { !selectedColor && error &&
+                            <p className="text-xs text-red-400">Select cloth color</p>
+                        }
+                    </div>
 
                     <div className="space-y-2">
                         <h5 className="text-sm font-bold">Quantity</h5>
@@ -143,10 +178,14 @@ export default function ProductDetails({ product }) {
                     </div>
 
                     <div className="flex flex-col gap-y-4">
-                        <button className="w-full bg-white hover:bg-white/90 border-1 border-gray-200 text-black text-lg rounded-xl p-4 transition-all ease-in-out duration-300">
+                        <button className="w-full bg-white hover:bg-white/90 border-1 border-gray-200 text-black text-lg rounded-xl p-4 transition-all ease-in-out duration-300"
+                        onClick={() => handleCheckOut()}
+                        >
                             Proceed to checkout
                         </button>
-                        <button className="w-full bg-black hover:bg-black/90 text-white text-lg rounded-xl p-4 transition-all ease-in-out duration-300">
+                        <button className="w-full bg-black hover:bg-black/90 text-white text-lg rounded-xl p-4 transition-all ease-in-out duration-300"
+                        onClick={() => handleCheckOut()}
+                        >
                             Add to Cart - N{isActive === 'Normal' ? (product.price * quantity).toLocaleString() : (expressPrice(product.price) * quantity).toLocaleString()}
                         </button>
                     </div>

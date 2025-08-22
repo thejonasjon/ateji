@@ -25,7 +25,6 @@ export default function ProductCard({product}) {
                                 <img
                                 src={product.image}
                                 alt={product.name}
-                                fill
                                 className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                                 />
                             </div>
@@ -54,7 +53,8 @@ export default function ProductCard({product}) {
                             </div>
 
                             <div className="mx-auto w-10/12 mt-4">
-                                <button className="w-full flex gap-2 items-center justify-center text-white text-xs bg-[#3f8b72] rounded-tl-xl rounded-tr-sm rounded-bl-sm rounded-br-xl  px-4 py-2"
+                                {/* bg-[#3f8b72] rounded-tl-xl rounded-tr-sm rounded-bl-sm rounded-br-xl */}
+                                <button className="w-full flex gap-2 items-center justify-center text-white text-xs flex-1 bg-gradient-to-r from-gray-900 to-gray-700 rounded-md px-4 py-2"
                                     onClick={() => AddToCart(product)}
                                 >
                                 <ShoppingCart className="h-4 w-4 text-gray-50" /> Add to cart
