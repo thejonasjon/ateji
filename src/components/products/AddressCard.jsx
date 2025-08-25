@@ -1,5 +1,7 @@
-export default function AddressCard(){
+import { House, MapPin, SquarePen } from "lucide-react";
+import { Link } from "react-router-dom";
 
+export default function AddressCard({address}){
 
     return (
         <div className="space-y-4 border border-[#3f8b72] rounded-lg px-4 py-4">
@@ -12,9 +14,9 @@ export default function AddressCard(){
                 </Link>
             </div>
 
-            <div className="flex gap-4">
+            <div className="flex justify-between gap-4">
                 <div>
-                    <p className="text-sm text-gray-500">5, Princess Osifeso, Ologufe bus stope, Awoyaya, Lagos.</p>
+                    <p className="text-sm text-gray-500">{`${address.address_line_1} ${address.city} ${address.state}`}</p>
                     <div className="text-sm text-gray-600 mt-2">
                         +234-903-510-3139
                     </div>

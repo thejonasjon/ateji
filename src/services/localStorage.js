@@ -29,32 +29,33 @@ export const getCartCount = () => {
 
 
 // Add item to cart
-export const AddToCart = (product) => {
+export const AddToCart = (product, replace = false) => {
     const carts = getCarts();
 
     const existingProductIndex = carts.findIndex(item => item.id === product.id);
 
     if (existingProductIndex !== -1) {
-        carts[existingProductIndex] = {
-            ...carts[existingProductIndex],
-            ...product,
-            quantity: (carts[existingProductIndex].quantity || 0) + (product.quantity || 1)
-        };
+      carts[existingProductIndex] = {
+        ...carts[existingProductIndex],
+        ...product,
+        quantity: replace
+          ? (product.quantity || 1)
+          : (carts[existingProductIndex].quantity || 0) + (product.quantity || 1)
+      };
     } else {
-        carts.push({ ...product, quantity: product.quantity || 1 });
+      carts.push({ ...product, quantity: product.quantity || 1 });
     }
 
     localStorage.setItem("addedToCart", JSON.stringify(carts));
-}
+  };
 
 // Delete item from cart
 export const removeFromCart = (productId) => {
-    const carts = getCarts()
+    let carts = getCarts()
 
     if (carts){
         carts = carts.filter(item => item.id !== productId);
-
-        localStorage.setItem('productCart', JSON.stringify(carts));
+        localStorage.setItem('addedToCart', JSON.stringify(carts));
     }
 }
 
@@ -64,7 +65,6 @@ export const getAddress = () => {
     if (address){
         return JSON.parse(address);
     }
-
     return ''
 }
 

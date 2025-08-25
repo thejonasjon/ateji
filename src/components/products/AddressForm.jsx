@@ -2,16 +2,18 @@ import { ChevronLeft } from "lucide-react";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { getOrCreateCustomer } from "../../services/api";
+import { addAddress, getAddress } from "../../services/localStorage";
 
 export default function AddressForm({addressForm}){
+    const savedAddress = getAddress()
 
-    const [firstName, setFirstName] = useState("");
-    const [lastName, setLastName] = useState("");
-    const [address, setAddress] = useState("");
-    const [ZIP, setZIP] = useState("");
-    const [phone, setPhone] = useState("");
-    const [city, setCity] = useState("");
-    const [state, setState] = useState("");
+    const [firstName, setFirstName] = useState(savedAddress?savedAddress.first_name:"");
+    const [lastName, setLastName] = useState(savedAddress?savedAddress.last_name:"");
+    const [address, setAddress] = useState(savedAddress?savedAddress.address_line_1:"");
+    const [ZIP, setZIP] = useState(savedAddress?savedAddress.zip_code:"");
+    const [phone, setPhone] = useState(savedAddress?savedAddress.phone:"");
+    const [city, setCity] = useState(savedAddress?savedAddress.city:"");
+    const [state, setState] = useState(savedAddress?savedAddress.state:"");
 
     const [errors, setErrors] = useState({});
 
@@ -44,12 +46,13 @@ export default function AddressForm({addressForm}){
                     state,
                 });
                 navigate('/cart')
-                return customer
+                return addAddress(customer)
             } catch (error) {
                 console.error("Error submitting form:", error.message);
             }
         }
     }
+
 
     return (
         <>
@@ -142,7 +145,8 @@ export default function AddressForm({addressForm}){
                     </div>
 
                     <div>
-                        <button className="flex justify-center items-center w-full text-lg text-white font-normal bg-[#3f8b72] h-12 rounded-md"
+                        {/* bg-[#3f8b72] */}
+                        <button className="flex justify-center items-center w-full text-lg text-white font-normal bg-gradient-to-r from-gray-900 to-gray-700 h-12 rounded-md"
                         type="submit"
                         >Submit</button>
                     </div>
