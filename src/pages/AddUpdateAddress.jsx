@@ -1,4 +1,4 @@
-import AddressForm from "../components/products/AddressForm";
+import AddressForm from "../components/products/addressCard";
 
 export default function AddressFormPage(){
     const addressForm = {

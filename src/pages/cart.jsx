@@ -5,8 +5,8 @@ import DefaultImage from '../assets/images/defaultImage.jpg'
 import CartCard from "../components/products/CartCard";
 import OrderSummary from "../components/products/OrderSumarry";
 import { Link } from "react-router-dom";
-import AddressCard from "../components/products/addressCard";
 import { getAddress, getCarts } from "../services/localStorage";
+import AddressCard from "../components/products/addressCard";
 
 export default function Cart(){
     const [quantity, setQuantity] = useState(1)
