@@ -18,7 +18,7 @@ export default function AddressCard({address}){
                 <div>
                     <p className="text-sm text-gray-500">{`${address.address_line_1} ${address.city} ${address.state}`}</p>
                     <div className="text-sm text-gray-600 mt-2">
-                        +234-903-510-3139
+                        {address.phone}
                     </div>
                 </div>
 
