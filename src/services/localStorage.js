@@ -61,11 +61,11 @@ export const removeFromCart = (productId) => {
 
 export const getAddress = () => {
     const address = localStorage.getItem('customerAddress');
-    address ? JSON.parse(address) : ''
+    address ? JSON.parse(address) : false
     if (address){
         return JSON.parse(address);
     }
-    return ''
+    return false
 }
 
 export const addAddress = (address) => {

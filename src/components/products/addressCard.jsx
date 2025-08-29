@@ -16,9 +16,9 @@ export default function AddressCard({address}){
 
             <div className="flex justify-between gap-4">
                 <div>
-                    <p className="text-sm text-gray-500">{`${address.address_line_1} ${address.city} ${address.state}`}</p>
+                    <p className="text-sm text-gray-500">  {`${address?.address_line_1 || ""} ${address?.city || ""} ${address?.state || ""}`}</p>
                     <div className="text-sm text-gray-600 mt-2">
-                        {address.phone}
+                        {address?.phone || ""}
                     </div>
                 </div>
 

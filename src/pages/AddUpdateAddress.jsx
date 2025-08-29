@@ -1,7 +1,14 @@
-import AddressForm from "../components/products/addressCard";
+import AddressForm from "../components/products/AddressForm";
+import { getAddress } from "../services/localStorage";
 
 export default function AddressFormPage(){
-    const addressForm = {
+    const addressForm = getAddress();
+
+    addressForm ? {
+        "new": false,
+        "fields": addressForm
+    }
+    : {
         "new": true,
         "fields": {}
     }

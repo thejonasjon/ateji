@@ -38,7 +38,7 @@ export default function Category() {
             </header>
 
             {/* Product lists */}
-            <main className="px-4 space-y-4">
+            <main className="px-4 mb-30 space-y-4">
                 <h2 className="text-2xl text-gray-800 font-bold">Categories</h2>
                 <div className="grid grid-cols-2 gap-2 gap-y-6">
                 {categories.map((category) => (

@@ -74,14 +74,12 @@ export default function Cart(){
                         ''
                     )
                 }
-
-
                 {
                     cartItems.length > 0
                     ? (
                         <div className="flex justify-center items-center mb-10">
                             {/* bg-[#3f8b72]  hover:bg-[#3a6f5e] text-white text-xs */}
-                            <button className="w-10/12 bg-gradient-to-r from-gray-900 to-gray-700 transition-all ease-in-out duration-400 text-lg text-white rounded-full p-3">Checkout</button>
+                            <Link to="/successful" className="w-10/12 flex justify-center items-center bg-gradient-to-r from-gray-900 to-gray-700 transition-all ease-in-out duration-400 text-lg text-white rounded-full p-3">Checkout</Link>
                         </div>
                     )
                     : ('')
